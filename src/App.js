@@ -100,6 +100,7 @@ const App = () => {
 
 		if(!cardHolderName) setCardHolderNameStatus("Can't be blank");
 		if (!cardNumber) setCardNumberStatus("Can't be blank");
+		if (/[A-Za-z]/.test(cardNumber)) setCardNumberStatus("Wrong format, numbers only");
 		if (!month) setMonthStatus("Can't be blank");
 		if (!year) setYearStatus("Can't be blank");
 		if (!cvc) setCvcStatus("Can't be blank");

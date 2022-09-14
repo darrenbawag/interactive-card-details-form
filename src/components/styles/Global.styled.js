@@ -41,7 +41,7 @@ export const GlobalStyles = createGlobalStyle`
   input {
     &:focus, &:active {
       outline: none;
-      border: 1px solid transparent;
+      border: 1px solid transparent !important;
       background-image: linear-gradient(white, white), ${({
 				gradientFromColor,
 				gradientToColor,

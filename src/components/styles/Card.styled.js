@@ -65,7 +65,7 @@ export const CardLogo = styled.img`
 export const CardNumber = styled.h1`
 	font-size: 27px;
 	color: ${({ textColor }) => textColor || "inherit"};
-	letter-spacing: 4px;
+	letter-spacing: 3px;
 	margin-bottom: ${({ marginBottom }) => marginBottom + "px" || "0"};
 	text-transform: uppercase;
 	white-space: nowrap;

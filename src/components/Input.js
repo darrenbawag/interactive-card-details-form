@@ -15,6 +15,7 @@ const Input = ({
   placeholder,
   maxLength,
   pattern,
+	inputMode,
   value,
   onChange,
   styleInput,
@@ -46,6 +47,7 @@ const Input = ({
 					placeholder={placeholder}
 					maxLength={maxLength}
 					pattern={pattern}
+					inputMode={inputMode}
 					value={value}
 					onChange={(e) => onChange(e)}
 					style={styleInput}

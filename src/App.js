@@ -9,6 +9,7 @@ import { Flexbox, LeftColumn, RightColumn, FlexHalf } from "./components/styles/
 import Background from "./components/Background";
 import Card from "./components/Card";
 import Form from "./components/Form";
+import Footer from "./components/Footer";
 
 const theme = {
 	colors: {
@@ -232,7 +233,9 @@ const App = () => {
 			.from(q(".formCtrl"), { opacity: 0, stagger: 0.3, y: 100 }, "-=1")
 			.to(q(".formCtrl"), { opacity: 1, stagger: 0.3, y: 0 })
 			.from(q(".submitBtn"), { opacity: 0, y: 100 }, "-=1.3")
-			.to(q(".submitBtn"), { opacity: 1, y: 0 });
+			.to(q(".submitBtn"), { opacity: 1, y: 0 })
+			.from(q(".attribution"), { opacity: 0, y: 100 }, "-=1.3")
+			.to(q(".attribution"), { opacity: 1, y: 0 });
 		// eslint-disable-next-line
 	}, []);
 
@@ -294,6 +297,7 @@ const App = () => {
 										handleChangeCvc={handleChangeCvc}
 										handleFormSubmit={handleFormSubmit}
 									/>
+									<Footer theme={theme} />
 								</FlexHalf>
 							</Flexbox>
 						</Container>

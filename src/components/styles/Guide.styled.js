@@ -10,7 +10,7 @@ export const Guide = styled.div`
 
   & img {
     opacity: .4;
-    width: 1440px;
+    width: 375px;
     height: auto;
     display: block;
     margin: 0 auto;

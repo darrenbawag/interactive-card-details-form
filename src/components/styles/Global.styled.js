@@ -35,6 +35,7 @@ export const GlobalStyles = createGlobalStyle`
 
   ::placeholder {
     color: #CBCBCC;
+    text-transform: initial;
   }
 
   input {

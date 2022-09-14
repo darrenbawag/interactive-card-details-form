@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap, Power4 } from "gsap";
 import { ThemeProvider } from "styled-components";
+
 import { GlobalStyles } from "./components/styles/Global.styled";
 import { Container } from "./components/styles/Container.styled";
 import { Flexbox, LeftColumn, RightColumn, FlexHalf } from "./components/styles/Flexbox.styled";
-import { MainBackground } from "./components/styles/Background.styled";
-import { Card, Front, BgFront, CardLogo, CardNumber, CardHolderName, ExpirationDate, Back, BgBack, CVC } from "./components/styles/Card.styled";
-import { StyledForm, FormControl, FormLabel, FormInput, ErrorFeedback } from "./components/styles/Form.styled";
-import { StyledButton } from "./components/styles/Button.styled";
+
+import Background from "./components/Background";
+import Card from "./components/Card";
+import Form from "./components/Form";
 
 const theme = {
 	colors: {
@@ -28,6 +30,9 @@ const theme = {
 };
 
 const App = () => {
+	const el = useRef();
+	const q = gsap.utils.selector(el);
+
 	const placeholderName = "Jane Appleseed";
 	const [cardNumber, setCardNumber] = useState("");
 	const [cardHolderName, setCardHolderName] = useState("");
@@ -80,62 +85,172 @@ const App = () => {
 			setMonth(e.target.value);
 	};
 
+	const handleBlurMonth = (e) => {
+		const value = e.target.value.toString();
+		if (value.length === 1 && value > 0) {
+			e.target.value = "0" + value;
+		}
+		e.stopPropagation();
+
+		(e.target.value === "" || /^[0-9\b]+$/.test(e.target.value)) &&
+			setMonth(e.target.value);
+	};
+
 	const handleChangeYear = (e) => {
-		setYearStatus("");
-		(e.target.value === "" 
-			|| /^[0-9\b]+$/.test(e.target.value)) 
-			&& setYear(e.target.value);
+		setYearStatus("");		
+		(e.target.value === "" || /^[0-9\b]+$/.test(e.target.value)) &&
+			setYear(e.target.value);
+	};
+
+	const handleBlurYear = (e) => {
+		const value = e.target.value.toString();
+		if (value.length === 1 && value > 0) {
+			e.target.value = "0" + value;
+		}
+		e.stopPropagation();
+
+		(e.target.value === "" || /^[0-9\b]+$/.test(e.target.value)) &&
+			setYear(e.target.value);
 	};
 
 	const handleChangeCvc = (e) => {
 		setCvcStatus("");
-		(e.target.value === "" 
-			|| /^[0-9\b]+$/.test(e.target.value))
-			&& setCvc(e.target.value);
-																
+		(e.target.value === "" || /^[0-9\b]+$/.test(e.target.value)) &&
+			setCvc(e.target.value);
+	};
+
+	const validator = () => {
+		let checkIsValid = true;
+
+		if (!cardHolderName) {
+			setCardHolderNameStatus("Can't be blank");
+			checkIsValid = false;
+		}
+		if (cardNumber !== "") {
+			if (/\D/.test(cardNumber.split(" ").join(""))) {
+				setCardNumberStatus("Wrong format, numbers only");
+				checkIsValid = false;
+			}
+			if (cardNumber.length !== 19) {
+				setCardNumberStatus("Wrong format, it should be 16-digit cards");
+				checkIsValid = false;
+			}
+		} else {
+			setCardNumberStatus("Can't be blank");
+			checkIsValid = false;
+		}
+		if (!month) {
+			setMonthStatus("Can't be blank");
+			checkIsValid = false;
+		}
+		if (!year) {
+			setYearStatus("Can't be blank");
+			checkIsValid = false;
+		}
+		if (cvc !== "") {
+			if (cvc.length !== 3) {
+				setCvcStatus("Wrong format, 3-digit");
+				checkIsValid = false;
+			}
+		} else {
+			setCvcStatus("Can't be blank");
+			checkIsValid = false;
+		}
+		
+		return checkIsValid;
 	};
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 
-		if(!cardHolderName) setCardHolderNameStatus("Can't be blank");
-		if (!cardNumber) setCardNumberStatus("Can't be blank");
-		if (/[A-Za-z]/.test(cardNumber)) setCardNumberStatus("Wrong format, numbers only");
-		if (!month) setMonthStatus("Can't be blank");
-		if (!year) setYearStatus("Can't be blank");
-		if (!cvc) setCvcStatus("Can't be blank");
+		const checkIsValid = validator();
+		if (checkIsValid) {
+			let tl = gsap.timeline({
+				default: { ease: Power4.easeInOut, duration: 2 },
+			});
+			tl.to(q(".formCtrl"), { opacity: 0, stagger: 0.3, y: -100 })
+				.to(q(".formCtrl"), { display: "none" })
+				.to(q(".successMsg"), { opacity: 1, display: "block" })
+				.to(
+					q(".submitBtn div span:first-child"),
+					{ transform: "translateY(-100%)" },
+					"-=1"
+				)
+				.to(
+					q(".submitBtn div span:last-child"),
+					{ transform: "translateY(-100%)" },
+					"-=1"
+				);
+			
+			const submitBtn = document.querySelector(".submitBtn");
+			submitBtn.type = "button";
+			submitBtn.classList.add("button");
 
-		return;
+			const buttonBtn = document.querySelector(".submitBtn.button");
+			const btnFunc = () => {
+				setCardNumber("");
+				setCardHolderName("");
+				setMonth("");
+				setYear("");
+				setCvc("");
+
+				let tl = gsap.timeline({
+					default: { ease: Power4.easeInOut, duration: 2 },
+				});
+				tl.to(q(".successMsg"), { opacity: 0, display: "none" })
+					.to(q(".formCtrl"), { display: "" })
+					.to(q(".formCtrl"), { opacity: 1, stagger: { each: -0.3 }, y: 0 })
+					.to(
+						q(".submitBtn div span:first-child"),
+						{ y: 0 },
+						"-=1"
+					)
+					.to(
+						q(".submitBtn div span:last-child"),
+						{ y: 0 },
+						"-=1"
+					);
+
+				const submitBtn = document.querySelector(".submitBtn");
+				submitBtn.classList.remove("button");
+				setTimeout(() => {
+					submitBtn.type = "submit";
+				}, 1000);
+				buttonBtn.removeEventListener("click", btnFunc);
+			};
+			buttonBtn.addEventListener("click", btnFunc);
+		}
 	};
 
-  return (
+	// useEffect(() => {
+	// 	let tl = gsap.timeline({
+	// 		default: { ease: Power4.easeInOut, duration: 2 },
+	// 	});
+
+	// 	tl.to(q(".frontCard"), { opacity: 1, x: 0 })
+	// 		.to(q(".backCard"), { opacity: 1, x: 0 })
+	// 		.from(q(".formCtrl"), { opacity: 0, stagger: 0.3, y: 100 }, "-=1")
+	// 		.to(q(".formCtrl"), { opacity: 1, stagger: 0.3, y: 0 })
+	// 		.from(q(".submitBtn"), { opacity: 0, y: 100 }, "-=1.3")
+	// 		.to(q(".submitBtn"), { opacity: 1, y: 0 });
+	// 	// eslint-disable-next-line
+	// }, []);
+
+	return (
 		<ThemeProvider theme={theme}>
 			<GlobalStyles
 				placeholderColor={theme.colors.neutral["light-grayish-violet"]}
 				gradientFromColor={theme.colors.primary["gradient-from"]}
 				gradientToColor={theme.colors.primary["gradient-to"]}
 			/>
-			<main>
+			<main ref={el}>
 				<Flexbox
 					heightUnit="100%"
 					mobileFlexDirection="column"
 					mobile={theme.breakpoints.mobile}
 				>
 					<LeftColumn mobile={theme.breakpoints.mobile}>
-						<MainBackground mobile={theme.breakpoints.mobile}>
-							<div>
-								<img
-									className="desktop"
-									src="./images/bg-main-desktop.png"
-									alt=""
-								/>
-								<img
-									className="mobile"
-									src="./images/bg-main-mobile.png"
-									alt=""
-								/>
-							</div>
-						</MainBackground>
+						<Background theme={theme} />
 					</LeftColumn>
 					<RightColumn mobile={theme.breakpoints.mobile}>
 						<Container mobile={theme.breakpoints.mobile}>
@@ -145,326 +260,40 @@ const App = () => {
 								mobile={theme.breakpoints.mobile}
 							>
 								<FlexHalf>
-									<Card mobile={theme.breakpoints.mobile}>
-										<Flexbox
-											flexDirection="column"
-											mobileFlexDirection="column-reverse"
-											mobile={theme.breakpoints.mobile}
-											widthUnit="100%"
-										>
-											<Flexbox marginBottom="35">
-												<Front
-													bgColorBefore={theme.colors.neutral.white}
-													borderColorAfter={theme.colors.neutral.white}
-													mobile={theme.breakpoints.mobile}
-												>
-													<BgFront mobile={theme.breakpoints.mobile}>
-														<img src="./images/bg-card-front.png" alt="" />
-													</BgFront>
-													<CardLogo
-														mobile={theme.breakpoints.mobile}
-														src="./images/card-logo.svg"
-													/>
-													<CardNumber
-														textColor={theme.colors.neutral.white}
-														marginBottom="25"
-														mobile={theme.breakpoints.mobile}
-														mobileMarginBottom="16"
-													>
-														{cardNumber && cardNumber !== " "
-															? handleCardDisplay()
-															: "0000 0000 0000 0000"}
-													</CardNumber>
-													<Flexbox justifyContent="space-between">
-														<CardHolderName
-															textColor={theme.colors.neutral.white}
-															marginBottom="0"
-															mobile={theme.breakpoints.mobile}
-														>
-															{cardHolderName
-																? cardHolderName
-																: placeholderName}
-														</CardHolderName>
-														<ExpirationDate
-															textColor={theme.colors.neutral.white}
-															marginBottom="0"
-															mobile={theme.breakpoints.mobile}
-														>
-															{month ? month : "00"}/{year ? year : "00"}
-														</ExpirationDate>
-													</Flexbox>
-												</Front>
-											</Flexbox>
-
-											<Flexbox widthUnit="100%" justifyContent="flex-end">
-												<Back mobile={theme.breakpoints.mobile}>
-													<BgBack mobile={theme.breakpoints.mobile}>
-														<img src="./images/bg-card-back.png" alt="" />
-													</BgBack>
-													<CVC
-														textColor={theme.colors.neutral.white}
-														marginBottom="0"
-														mobile={theme.breakpoints.mobile}
-													>
-														{cvc ? cvc : "000"}
-													</CVC>
-												</Back>
-											</Flexbox>
-										</Flexbox>
-									</Card>
+									<Card
+										theme={theme}
+										cardNumber={cardNumber}
+										cardHolderName={cardHolderName}
+										month={month}
+										year={year}
+										cvc={cvc}
+										placeholderName={placeholderName}
+										handleCardDisplay={handleCardDisplay}
+									/>
 								</FlexHalf>
 								<FlexHalf>
-									<StyledForm mobile={theme.breakpoints.mobile}>
-										<form onSubmit={(e) => handleFormSubmit(e)}>
-											<FormControl
-												marginBottom="25"
-												mobileMarginBottom="20"
-												mobile={theme.breakpoints.mobile}
-											>
-												<FormLabel
-													textColor={theme.colors.neutral["very-dark-violet"]}
-													marginBottom="8"
-												>
-													Cardholder Name
-												</FormLabel>
-												<FormInput
-													borderColor={
-														theme.colors.neutral["light-grayish-violet"]
-													}
-													textColor={theme.colors.neutral["very-dark-violet"]}
-												>
-													<input
-														type="text"
-														placeholder={"e.g. " + placeholderName}
-														value={cardHolderName}
-														onChange={(e) => handleChangeCardHolderName(e)}
-														style={
-															cardHolderNameStatus
-																? {
-																		borderColor: theme.colors.primary.red,
-																  }
-																: null
-														}
-													/>
-												</FormInput>
-												<ErrorFeedback
-													textColor={theme.colors.primary.red}
-													style={
-														cardHolderNameStatus ? { display: "block" } : null
-													}
-												>
-													{cardHolderNameStatus}
-												</ErrorFeedback>
-											</FormControl>
-											<FormControl
-												marginBottom="25"
-												mobileMarginBottom="20"
-												mobile={theme.breakpoints.mobile}
-											>
-												<FormLabel
-													textColor={theme.colors.neutral["very-dark-violet"]}
-													marginBottom="8"
-												>
-													Card Number
-												</FormLabel>
-												<FormInput
-													borderColor={
-														theme.colors.neutral["light-grayish-violet"]
-													}
-													textColor={theme.colors.neutral["very-dark-violet"]}
-												>
-													<input
-														type="text"
-														placeholder="e.g. 1234 5678 9123 0000"
-														maxLength="19"
-														value={handleCardDisplay()}
-														onChange={(e) => handleChangeCardNumber(e)}
-														style={
-															cardNumberStatus
-																? {
-																		borderColor: theme.colors.primary.red,
-																		textTransform: "uppercase",
-																  }
-																: { textTransform: "uppercase" }
-														}
-													/>
-												</FormInput>
-												<ErrorFeedback
-													textColor={theme.colors.primary.red}
-													style={cardNumberStatus ? { display: "block" } : null}
-												>
-													{cardNumberStatus}
-												</ErrorFeedback>
-											</FormControl>
-											<Flexbox>
-												<FlexHalf
-													paddingRight="20"
-													mobilePaddingRight="12"
-													mobile={theme.breakpoints.mobile}
-												>
-													<FormControl>
-														<FormLabel
-															textColor={
-																theme.colors.neutral["very-dark-violet"]
-															}
-															marginBottom="9"
-														>
-															Exp. Date (MM/YY)
-														</FormLabel>
-														<Flexbox>
-															<FlexHalf paddingRight="5">
-																<FormControl marginBottom="0">
-																	<FormInput
-																		borderColor={
-																			theme.colors.neutral[
-																				"light-grayish-violet"
-																			]
-																		}
-																		textColor={
-																			theme.colors.neutral["very-dark-violet"]
-																		}
-																	>
-																		<input
-																			type="text"
-																			maxLength="2"
-																			pattern="[0-9]*"
-																			inputMode="numerical"
-																			placeholder="MM"
-																			value={month}
-																			onChange={(e) => handleChangeMonth(e)}
-																			style={
-																				monthStatus
-																					? {
-																							borderColor:
-																								theme.colors.primary.red,
-																					  }
-																					: null
-																			}
-																		/>
-																	</FormInput>
-																</FormControl>
-															</FlexHalf>
-															<FlexHalf paddingLeft="5">
-																<FormControl marginBottom="0">
-																	<FormInput
-																		borderColor={
-																			theme.colors.neutral[
-																				"light-grayish-violet"
-																			]
-																		}
-																		textColor={
-																			theme.colors.neutral["very-dark-violet"]
-																		}
-																	>
-																		<input
-																			type="text"
-																			maxLength="2"
-																			pattern="[0-9]*"
-																			inputMode="numerical"
-																			placeholder="YY"
-																			value={year}
-																			onChange={(e) => handleChangeYear(e)}
-																			style={
-																				yearStatus
-																					? {
-																							borderColor:
-																								theme.colors.primary.red,
-																					  }
-																					: null
-																			}
-																		/>
-																	</FormInput>
-																</FormControl>
-															</FlexHalf>
-														</Flexbox>
-														{monthStatus && yearStatus ? (
-															<ErrorFeedback
-																textColor={theme.colors.primary.red}
-																style={
-																	monthStatus && yearStatus
-																		? { display: "block" }
-																		: null
-																}
-															>
-																{monthStatus}
-															</ErrorFeedback>
-														) : monthStatus ? (
-															<ErrorFeedback
-																textColor={theme.colors.primary.red}
-																style={
-																	monthStatus ? { display: "block" } : null
-																}
-															>
-																{monthStatus}
-															</ErrorFeedback>
-														) : (
-															<ErrorFeedback
-																textColor={theme.colors.primary.red}
-																style={yearStatus ? { display: "block" } : null}
-															>
-																{yearStatus}
-															</ErrorFeedback>
-														)}
-													</FormControl>
-												</FlexHalf>
-												<FlexHalf>
-													<FormControl marginBottom="0">
-														<FormLabel
-															textColor={
-																theme.colors.neutral["very-dark-violet"]
-															}
-															marginBottom="9"
-														>
-															CVC
-														</FormLabel>
-														<FormInput
-															borderColor={
-																theme.colors.neutral["light-grayish-violet"]
-															}
-															textColor={
-																theme.colors.neutral["very-dark-violet"]
-															}
-														>
-															<input
-																type="text"
-																maxLength="3"
-																pattern="[0-9]*"
-																inputMode="numerical"
-																placeholder="e.g. 123"
-																value={cvc}
-																onChange={(e) => handleChangeCvc(e)}
-																style={
-																	cvcStatus
-																		? {
-																				borderColor: theme.colors.primary.red,
-																		  }
-																		: null
-																}
-															/>
-														</FormInput>
-														<ErrorFeedback
-															textColor={theme.colors.primary.red}
-															style={cvcStatus ? { display: "block" } : null}
-														>
-															{cvcStatus}
-														</ErrorFeedback>
-													</FormControl>
-												</FlexHalf>
-											</Flexbox>
-											<StyledButton
-												type="submit"
-												textColor={theme.colors.neutral.white}
-												bgColor={theme.colors.neutral["very-dark-violet"]}
-												gradientFromColor={
-													theme.colors.primary["gradient-from"]
-												}
-												gradientToColor={theme.colors.primary["gradient-to"]}
-												marginTop="39"
-											>
-												<span>Confirm</span>
-											</StyledButton>
-										</form>
-									</StyledForm>
+									<Form
+										theme={theme}
+										cardHolderName={cardHolderName}
+										month={month}
+										year={year}
+										cvc={cvc}
+										cardNumberStatus={cardNumberStatus}
+										cardHolderNameStatus={cardHolderNameStatus}
+										monthStatus={monthStatus}
+										yearStatus={yearStatus}
+										cvcStatus={cvcStatus}
+										placeholderName={placeholderName}
+										handleCardDisplay={handleCardDisplay}
+										handleChangeCardHolderName={handleChangeCardHolderName}
+										handleChangeCardNumber={handleChangeCardNumber}
+										handleChangeMonth={handleChangeMonth}
+										handleBlurMonth={handleBlurMonth}
+										handleChangeYear={handleChangeYear}
+										handleBlurYear={handleBlurYear}
+										handleChangeCvc={handleChangeCvc}
+										handleFormSubmit={handleFormSubmit}
+									/>
 								</FlexHalf>
 							</Flexbox>
 						</Container>

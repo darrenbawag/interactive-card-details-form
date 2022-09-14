@@ -37,9 +37,15 @@ export const StyledButton = styled.button`
 		}
 	}
 
-	span {
+	div {
 		color: ${({ textColor }) => textColor || "inherit"};
     position: relative;
     z-index: 2;
+		overflow: hidden;
+		height: 23px;
+
+		span {
+			display: block;
+		}
 	}
 `;

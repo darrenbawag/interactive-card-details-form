@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Card = styled.div`
+export const StyledCard = styled.div`
 	position: relative;
 	padding: 188px 15px 0 164px;
 	width: 100%;
@@ -11,7 +11,7 @@ export const Card = styled.div`
 `;
 
 // Card Front
-export const Front = styled.div`
+export const StyledFront = styled.div`
 	position: relative;
 	width: 447px;
 	height: 245px;
@@ -19,6 +19,8 @@ export const Front = styled.div`
 	overflow: hidden;
 	z-index: 2;
 	box-shadow: 0 20px 25px rgba(0, 0, 0, 0.07);
+	/* transform: translateX(-100%);
+	opacity: 0; */
 
 	@media (max-width: ${({ mobile }) => mobile}) {
 		width: 287px;
@@ -104,13 +106,15 @@ export const ExpirationDate = styled.h2`
 `;
 
 // Card Back
-export const Back = styled.div`
+export const StyledBack = styled.div`
 	position: relative;
 	width: 447px;
 	height: 245px;
 	padding: 112px 58px 0;
 	z-index: 1;
 	box-shadow: 0 20px 25px rgba(0, 0, 0, 0.07);
+	/* transform: translateX(-100%);
+	opacity: 0; */
 
 	@media (max-width: ${({ mobile }) => mobile}) {
 		width: 287px;

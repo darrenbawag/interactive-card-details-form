@@ -7,7 +7,7 @@ const Message = ({ theme }) => {
 			mobile={theme.breakpoints.mobile}
 			className="successMsg"
 		>
-			<img src="./images/icon-complete.svg" alt="" />
+			<img src="./images/icon-complete.svg" alt="Icon Complete" />
 			<h2>Thank You!</h2>
 			<p>We've added your card details</p>
 		</SuccessMessage>

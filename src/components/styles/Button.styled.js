@@ -37,10 +37,11 @@ export const StyledButton = styled.button`
 		}
 	}
 
-	div {
+	span {
 		color: ${({ textColor }) => textColor || "inherit"};
     position: relative;
     z-index: 2;
+		display: block;
 		overflow: hidden;
 		height: 23px;
 

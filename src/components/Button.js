@@ -11,10 +11,10 @@ const Button = ({ theme }) => {
 			marginTop="39"
 			className="submitBtn"
 		>
-			<div>
+			<span>
 				<span>Confirm</span>
 				<span>Continue</span>
-			</div>
+			</span>
 		</StyledButton>
 	);
 };

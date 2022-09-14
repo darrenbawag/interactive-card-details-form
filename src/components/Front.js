@@ -25,11 +25,12 @@ const Front = ({
 			className="frontCard"
 		>
 			<BgFront mobile={theme.breakpoints.mobile}>
-				<img src="./images/bg-card-front.png" alt="" />
+				<img src="./images/bg-card-front.png" alt="Background Card Front" />
 			</BgFront>
 			<CardLogo
 				mobile={theme.breakpoints.mobile}
 				src="./images/card-logo.svg"
+				alt="Card Logo"
 			/>
 			<CardNumber
 				textColor={theme.colors.neutral.white}

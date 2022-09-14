@@ -172,12 +172,12 @@ const App = () => {
 				.to(q(".formCtrl"), { display: "none" })
 				.to(q(".successMsg"), { opacity: 1, display: "block" })
 				.to(
-					q(".submitBtn div span:first-child"),
+					q(".submitBtn span span:first-child"),
 					{ transform: "translateY(-100%)" },
 					"-=1"
 				)
 				.to(
-					q(".submitBtn div span:last-child"),
+					q(".submitBtn span span:last-child"),
 					{ transform: "translateY(-100%)" },
 					"-=1"
 				);
@@ -201,12 +201,12 @@ const App = () => {
 					.to(q(".formCtrl"), { display: "" })
 					.to(q(".formCtrl"), { opacity: 1, stagger: { each: -0.3 }, y: 0 })
 					.to(
-						q(".submitBtn div span:first-child"),
+						q(".submitBtn span span:first-child"),
 						{ y: 0 },
 						"-=1"
 					)
 					.to(
-						q(".submitBtn div span:last-child"),
+						q(".submitBtn span span:last-child"),
 						{ y: 0 },
 						"-=1"
 					);

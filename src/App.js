@@ -223,21 +223,20 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		let tl = gsap.timeline({
-			default: { ease: Power4.easeInOut, duration: 2 },
-		});
-
-		tl.to(q(".frontCard"), { opacity: 1, x: 0 })
-			.to(q(".backCard"), { opacity: 1, x: 0 })
-			.from(q(".formCtrl"), { opacity: 0, stagger: 0.3, y: 100 }, "-=1")
-			.to(q(".formCtrl"), { opacity: 1, stagger: 0.3, y: 0 })
-			.from(q(".submitBtn"), { opacity: 0, y: 100 }, "-=1.3")
-			.to(q(".submitBtn"), { opacity: 1, y: 0 })
-			.from(q(".attribution"), { opacity: 0, y: 100 }, "-=1.3")
-			.to(q(".attribution"), { opacity: 1, y: 0 });
-		// eslint-disable-next-line
-	}, []);
+	// useEffect(() => {
+	// 	let tl = gsap.timeline({
+	// 		default: { ease: Power4.easeInOut, duration: 2 },
+	// 	});
+	// 	tl.to(q(".frontCard"), { opacity: 1, x: 0 })
+	// 		.to(q(".backCard"), { opacity: 1, x: 0 })
+	// 		.from(q(".formCtrl"), { opacity: 0, stagger: 0.3, y: 100 }, "-=1")
+	// 		.to(q(".formCtrl"), { opacity: 1, stagger: 0.3, y: 0 })
+	// 		.from(q(".submitBtn"), { opacity: 0, y: 100 }, "-=1.3")
+	// 		.to(q(".submitBtn"), { opacity: 1, y: 0 })
+	// 		.from(q(".attribution"), { opacity: 0, y: 100 }, "-=1.3")
+	// 		.to(q(".attribution"), { opacity: 1, y: 0 });
+	// 	// eslint-disable-next-line
+	// }, []);
 
 	return (
 		<ThemeProvider theme={theme}>

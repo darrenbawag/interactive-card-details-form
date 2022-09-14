@@ -20,8 +20,8 @@ export const StyledFront = styled.div`
 	z-index: 2;
 	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.19);
 	border-radius: 9px;
-	transform: translateX(-100%);
-	opacity: 0;
+	/* transform: translateX(-100%);
+	opacity: 0; */
 
 	@media (max-width: ${({ mobile }) => mobile}) {
 		width: 287px;
@@ -116,8 +116,8 @@ export const StyledBack = styled.div`
 	z-index: 1;
 	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.19);
 	border-radius: 9px;
-	transform: translateX(-100%);
-	opacity: 0;
+	/* transform: translateX(-100%);
+	opacity: 0; */
 
 	@media (max-width: ${({ mobile }) => mobile}) {
 		width: 287px;

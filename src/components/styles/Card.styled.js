@@ -18,7 +18,8 @@ export const StyledFront = styled.div`
 	padding: 140px 32px 25px;
 	overflow: hidden;
 	z-index: 2;
-	box-shadow: 0 20px 25px rgba(0, 0, 0, 0.07);
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.19);
+	border-radius: 9px;
 	/* transform: translateX(-100%);
 	opacity: 0; */
 
@@ -27,6 +28,7 @@ export const StyledFront = styled.div`
 		height: 157px;
 		margin-top: -63px;
 		padding: 86px 21px 25px;
+		border-radius: 4px;
 	}
 `;
 
@@ -65,7 +67,7 @@ export const CardLogo = styled.img`
 export const CardNumber = styled.h1`
 	font-size: 27px;
 	color: ${({ textColor }) => textColor || "inherit"};
-	letter-spacing: 3px;
+	letter-spacing: 3.5px;
 	margin-bottom: ${({ marginBottom }) => marginBottom + "px" || "0"};
 	text-transform: uppercase;
 	white-space: nowrap;
@@ -112,7 +114,8 @@ export const StyledBack = styled.div`
 	height: 245px;
 	padding: 112px 58px 0;
 	z-index: 1;
-	box-shadow: 0 20px 25px rgba(0, 0, 0, 0.07);
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.19);
+	border-radius: 9px;
 	/* transform: translateX(-100%);
 	opacity: 0; */
 
@@ -120,6 +123,7 @@ export const StyledBack = styled.div`
 		width: 287px;
 		height: 157px;
 		padding: 71px 38px 0;
+		border-radius: 4px;
 	}
 `;
 

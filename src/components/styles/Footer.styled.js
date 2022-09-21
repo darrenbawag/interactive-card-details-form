@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 export const StyledFooter = styled.footer`
-	padding: 60px 0;
-	margin-left: 112px;
+	padding: 3.75rem 0;
+	margin-left: 7rem;
 
 	.attribution {
-		font-size: 11px;
+		font-size: 0.6875rem;
 		text-align: center;
 		color: ${({ textColor }) => textColor || "inherit"};
-		width: 381px;
+		width: 23.8125rem;
 
 		@media (max-width: ${({ mobile }) => mobile}) {
 			width: 100%;
@@ -26,6 +26,6 @@ export const StyledFooter = styled.footer`
 
 	@media (max-width: ${({ mobile }) => mobile}) {
 		margin-left: 0;
-		padding: 60px 15px;
+		padding: 3.75rem 0.9375rem;
 	}
 `;

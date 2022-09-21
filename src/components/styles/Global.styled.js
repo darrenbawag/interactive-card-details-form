@@ -7,7 +7,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 500;
     margin: 0;
 

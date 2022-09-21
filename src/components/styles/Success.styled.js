@@ -3,19 +3,19 @@ import styled from "styled-components";
 export const SuccessMessage = styled.div`
 	position: relative;
 	text-align: center;
-	padding: 30px 0 20px;
+	padding: 1.875rem 0 1.25rem;
 	opacity: 0;
 	display: none;
 
 	img {
 		display: block;
-		margin: 0 auto 35px;
+		margin: 0 auto 2.1875rem;
 	}
 
 	h2 {
 		text-transform: uppercase;
-		letter-spacing: 3.5px;
-		font-size: 28px;
+		letter-spacing: 0.2188rem;
+		font-size: 1.75rem;
 		color: ${({ textColor }) => textColor || "inherit"};
 	}
 
@@ -24,6 +24,6 @@ export const SuccessMessage = styled.div`
 	}
 
 	@media (max-width: ${({ mobile }) => mobile}) {
-		padding: 0 0 40px;
+		padding: 0 0 2.5rem;
 	}
 `;

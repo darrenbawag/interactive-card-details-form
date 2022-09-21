@@ -3,16 +3,15 @@ import styled from "styled-components";
 export const StyledButton = styled.button`
 	width: 100%;
 	font-family: inherit;
-	font-size: 18px;
+	font-size: 1.125rem;
 	background-color: ${({ bgColor }) => bgColor || "inherit"};
-	border-width: 1px;
+	border-width: 0.0625rem;
 	border-style: solid;
-	border-radius: 9px;
+	border-radius: 0.5625rem;
 	padding: 15px;
 	cursor: pointer;
 	position: relative;
-	margin-top: ${({ withError, marginTop }) =>
-		withError ? withError + "px" : marginTop + "px"};
+	margin-top: 2.4375rem;
 	overflow: hidden;
 
 	&:after {
@@ -43,7 +42,7 @@ export const StyledButton = styled.button`
     z-index: 2;
 		display: block;
 		overflow: hidden;
-		height: 23px;
+		height: 1.4375rem;
 
 		span {
 			display: block;

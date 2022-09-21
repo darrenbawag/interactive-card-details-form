@@ -8,7 +8,7 @@ export const MainBackground = styled.div`
 	left: 0;
 	bottom: 0;
 	right: 0;
-	padding-right: 237px;
+	padding-right: 14.8125rem;
 	overflow: hidden;
 
 	& .desktop {
@@ -31,7 +31,7 @@ export const MainBackground = styled.div`
 	}
 
 	@media (max-width: ${({ mobile }) => mobile}) {
-		height: 240px;
+		height: 15rem;
 		padding-right: 0;
 
 		& .desktop {
